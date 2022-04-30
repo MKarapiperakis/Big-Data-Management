@@ -1,0 +1,91 @@
+
+
+[{$project: {
+ trending_date: 1,
+ publish_time: 1
+}}, {$project: {
+ trending_date: {
+  $replaceAll: {
+   input: '$trending_date',
+   find: '.',
+   replacement: '-'
+  }
+ },
+ publish_time: 1
+}}, {$project: {
+ date: {
+  $split: [
+   '$trending_date',
+   '-'
+  ]
+ },
+ publish_time: 1
+}}, {$project: {
+ year: {
+  $arrayElemAt: [
+   '$date',
+   0
+  ]
+ },
+ month: {
+  $arrayElemAt: [
+   '$date',
+   2
+  ]
+ },
+ day: {
+  $arrayElemAt: [
+   '$date',
+   1
+  ]
+ },
+ publish_time: 1
+}}, {$project: {
+ trending_date: {
+  $concat: [
+   '$year',
+   '-',
+   '$month',
+   '-',
+   '$day'
+  ]
+ },
+ publish_time: 1
+}}, {$project: {
+ trending_date: {
+  $dateFromString: {
+   dateString: '$trending_date'
+  }
+ },
+ publish_time: 1
+}}, {$project: {
+ publish_time: {
+  $dateToString: {
+   format: '%d-%m-%Y',
+   date: '$publish_time'
+  }
+ },
+ trending_date: {
+  $dateToString: {
+   format: '%d-%m-%Y',
+   date: '$trending_date'
+  }
+ },
+ dayssince: {
+  $divide: [
+   {
+    $subtract: [
+     '$trending_date',
+     '$publish_time'
+    ]
+   },
+   86400000
+  ]
+ }
+}}, {$project: {
+ dayssince: {
+  $ceil: '$dayssince'
+ },
+ publish_time: 1,
+ trending_date: 1
+}}]
