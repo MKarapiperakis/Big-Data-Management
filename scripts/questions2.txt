@@ -1,9 +1,0 @@
-[{$sort: {
- views: -1
-}}, {$project: {
- video_id: 1,
- views: 1,
- count: {
-  $size: '$tags'
- }
-}}]
