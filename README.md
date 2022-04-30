@@ -1,3 +1,3 @@
 # Big-Data-Management
 
-MongoDB aggregations
+MongoDB Project
