@@ -1,0 +1,10 @@
+[{$match: {
+ channel_title: 'Saturday Night Live'
+}}, {$project: {
+ views: 1,
+ title: 1,
+ likes: 1,
+ dislikes: 1
+}}, {$sort: {
+ views: -1
+}}]

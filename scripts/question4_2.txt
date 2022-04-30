@@ -1,0 +1,31 @@
+[{$project: {
+ video_id: 1,
+ likes: 1,
+ dislikes: 1,
+ views: 1,
+ comments_disabled: 1
+}}, {$match: {
+ comments_disabled: 'True'
+}}, {$group: {
+ _id: null,
+ likesAverage: {
+  $avg: '$likes'
+ },
+ dislikesAverage: {
+  $avg: '$dislikes'
+ },
+ viewsAverage: {
+  $avg: '$views'
+ }
+}}, {$project: {
+ _id: 0,
+ likesAverage: {
+  $toInt: '$likesAverage'
+ },
+ dislikesAverage: {
+  $toInt: '$dislikesAverage'
+ },
+ viewsAverage: {
+  $toInt: '$viewsAverage'
+ }
+}}]

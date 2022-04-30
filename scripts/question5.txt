@@ -1,0 +1,38 @@
+[{$match: {
+ publish_time: {
+  $gte: ISODate('2017-12-04T22:00:00.000Z'),
+  $lte: ISODate('2018-03-04T22:00:00.000Z')
+ }
+}}, {$project: {
+ _id: 1,
+ publish_time: 1
+}}, {$group: {
+ _id: {
+  day: {
+   $dayOfMonth: '$publish_time'
+  },
+  month: {
+   $month: '$publish_time'
+  },
+  year: {
+   $year: '$publish_time'
+  }
+ },
+ count: {
+  $sum: 1
+ },
+ date: {
+  $first: '$publish_time'
+ }
+}}, {$sort: {
+ date: 1
+}}, {$project: {
+ date: {
+  $dateToString: {
+   format: '%d-%m-%Y',
+   date: '$date'
+  }
+ },
+ count: 1,
+ _id: 0
+}}]
